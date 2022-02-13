@@ -4,9 +4,16 @@ import navigateTo from './util/navigation';
 import interestingProjects from './content/interestingProjects';
 
 import './App.css';
+import { useEffect } from 'react';
+import ReactGA from 'react-ga';
 
 function App() {
   const profileImage = 'https://avatars.githubusercontent.com/u/12171933?s=400&u=79cc2586f4e64f2a7df0cae2a19364e8325d6c7a&v=4';
+
+  useEffect(() => { 
+    ReactGA.initialize('UA-64691528-3');
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
 
   return (
     <div className="App" >
