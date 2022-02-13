@@ -1,8 +1,28 @@
+import { useEffect, useState } from 'react';
 import { Card, Grid, Typography } from '@mui/material';
 import GithubCard from './GithubCard';
-import interestingProjects from '../content/interestingProjects';
+import githubApi from '../api/github';
 
 const InterestingProjects = (props) => {
+
+    const [interestingProjects, setInterestingProjects] = useState([]);
+
+    useEffect(() => { 
+        const fetchGithubProjects = async () => {
+            const githubProjects = await githubApi.getStarredByUser('jonathanhughes');
+            githubProjects?.sort((p1, p2) => p2.watchers - p1.watchers);
+            const projects = githubProjects?.map(project => ({
+                key: project.id,
+                name: project.name,
+                image: project.owner?.avatar_url,
+                description: project.description,
+                siteLink: project.homepage,
+                githubLink: project.html_url
+            }));
+            setInterestingProjects(projects);
+        };
+        fetchGithubProjects();
+    },[]);
     return (
         <>
             <Card style={{ marginBottom: 30 }}>

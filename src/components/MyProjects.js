@@ -9,14 +9,13 @@ const MyProjects = (props) => {
 
     useEffect(() => {
         const fetchGithubProjects = async () => {
-            const githubProjects = await githubApi.getPublicReposForUser('jonathanhughes');
-            const myProjects = githubProjects?.data?.map(project => ({ 
+            const githubProjects = await githubApi.getReposByUser('jonathanhughes');
+            const myProjects = githubProjects?.map(project => ({ 
                 key: project.id,
                 name: project.name,
                 description: project.description,
                 githubLink: project.html_url    
             }));
-            console.log(myProjects);
             setMyProjects(myProjects);
         };
         fetchGithubProjects();
